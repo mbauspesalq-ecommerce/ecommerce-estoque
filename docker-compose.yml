@@ -17,20 +17,6 @@ services:
     networks:
       - ecommerce_network
 
-  ecommerce-estoque:
-    build:
-      context: ./
-      dockerfile: Dockerfile
-    container_name: ecommerce-estoque
-    depends_on:
-      - postgres
-    environment:
-      SPRING_PROFILES_ACTIVE: docker
-    ports:
-      - "8000:8000"
-    networks:
-      - ecommerce_network
-
 volumes:
   postgres_data:
 
