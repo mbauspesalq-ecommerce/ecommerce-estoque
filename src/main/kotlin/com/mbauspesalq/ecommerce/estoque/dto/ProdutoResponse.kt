@@ -7,7 +7,7 @@ data class ProdutoResponse(
     @JsonProperty("nome_produto")
     val nomeProduto: String,
     val categoria: String,
-    val quantidade: Int,
+    var quantidade: Int,
     @JsonProperty("preço")
     val preco: Double
 )

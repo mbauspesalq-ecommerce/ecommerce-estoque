@@ -17,7 +17,7 @@ class Produto (
     val categoria: String,
 
     @Column(nullable = false)
-    val quantidade: Int,
+    var quantidade: Int,
 
     @Column(nullable = false)
     val preco: Double,

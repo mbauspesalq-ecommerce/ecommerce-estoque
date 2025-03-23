@@ -1,5 +1,6 @@
 package com.mbauspesalq.ecommerce.estoque.controller
 
+import com.mbauspesalq.ecommerce.estoque.dto.ProdutoEstoqueRequest
 import com.mbauspesalq.ecommerce.estoque.dto.ProdutoRequest
 import com.mbauspesalq.ecommerce.estoque.dto.ProdutoResponse
 import com.mbauspesalq.ecommerce.estoque.service.ProdutoService
@@ -48,6 +49,29 @@ class ProdutoController(
             ResponseEntity.noContent().build()
         } else {
             ResponseEntity.notFound().build()
+        }
+    }
+
+    @PostMapping("/subtrai-estoque")
+    fun subtraiEstoque(@RequestBody produtos: List<ProdutoEstoqueRequest>): ResponseEntity<String> {
+        val produtosIndisponiveis = service.subtraiEstoque(produtos)
+
+        return if (produtosIndisponiveis.isEmpty()) {
+            ResponseEntity.ok("Estoque atualizado com sucesso.")
+        } else {
+            ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
+                .body("Produtos com estoque insuficiente: ${produtosIndisponiveis.joinToString { it.idProduto.toString() }}")
+        }
+    }
+
+    @PostMapping("/devolve-estoque")
+    fun devolveEstoque(@RequestBody produtos: List<ProdutoEstoqueRequest>): ResponseEntity<String> {
+        val produtosIndisponiveis = service.devolveEstoque(produtos)
+        return if (produtosIndisponiveis.isEmpty()) {
+            ResponseEntity.ok("Produtos devolvidos ao estoque com sucesso.")
+        } else {
+            ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
+                .body("Produtos com estoque insuficiente: ${produtosIndisponiveis.joinToString { it.idProduto.toString() }}")
         }
     }
 }
